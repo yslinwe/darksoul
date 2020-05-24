@@ -12,8 +12,14 @@ public class InputControl : MonoBehaviour {
 	public string KeyA = "left shift";
 	public string KeyB = "space";
 	public string KeyC;
-	public string KeyD;	
+	public string KeyJUp = "up";	
+	public string KeyJDown = "down";	
+	public string KeyJLeft = "left";	
+	public string KeyJRight = "right";
+
 	[Header("====Output signals====")]
+	public float Jup;
+	public float Jright;
 	public float Dup;
 	public float Dright;
 	public float Dmag;
@@ -22,7 +28,9 @@ public class InputControl : MonoBehaviour {
 	public bool run;
 	//2.trigger signal
 	public bool jump;
-	public bool lastjump;
+	public bool lastJump;
+	public bool attach;
+	public bool lastAttach;
 	//3.double signal
 	[Header("====others====")]
 	public bool InputEnabled = true;
@@ -38,6 +46,9 @@ public class InputControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		Jup = (Input.GetKey(KeyJUp)?1.0f:0) - (Input.GetKey(KeyJDown)?1.0f:0);
+		Jright = (Input.GetKey(KeyJRight)?1.0f:0) - (Input.GetKey(KeyJLeft)?1.0f:0);
+
 		TargetDup = InputEnabled?((Input.GetKey(KeyUp)?1.0f:0) - (Input.GetKey(KeyDown)?1.0f:0)):0;
 		TargetDright =  InputEnabled?((Input.GetKey(KeyRight)?1.0f:0) - (Input.GetKey(KeyLeft)?1.0f:0)):0;
 		Dup = Mathf.SmoothDamp(Dup,TargetDup,ref VectorityDup,0.1f);
@@ -47,14 +58,22 @@ public class InputControl : MonoBehaviour {
 		float Dright2 = tempAxis.y;
 		Dmag = Mathf.Sqrt(Dup2*Dup2+Dright2*Dright2);
 		Dvec = Dright2*transform.right+Dup2*transform.forward;
+
 		run = Input.GetKey(KeyA);
+
 		bool newjump = Input.GetKey(KeyB);
-		if(newjump!=lastjump&&newjump==true)
+		if(newjump!=lastJump&&newjump==true)
 			jump = true;
 		else
 			jump = false;
-		lastjump = newjump;
-		//jump = Input.GetKeyDown(KeyB);
+		lastJump = newjump;
+
+		bool newAttach = Input.GetKey(KeyC);
+		if(newAttach!=lastAttach&&newAttach==true)
+			attach = true;
+		else
+			attach = false;
+		lastAttach = newAttach;
 	}
 
 	private Vector2 SquareToCircle(Vector2 Input)

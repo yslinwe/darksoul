@@ -7,13 +7,15 @@ public class ActorControl : MonoBehaviour {
 	public InputControl pi;
 	public float walkSpeed = 1.8f; 
 	public float runSpeed = 2.8f;
-	public float jumpVelocity = 3.0f;
-	[SerializeField]
+	public float jumpVelocity = 5.0f;
+	public float rollVelocity = 3.0f;
 	private Animator anim;
+	//[SerializeField]
 	private Rigidbody rigid;
 	private Vector3 movingvec;
 	private Vector3 trustvec;
 	private bool lockPlaner = false;
+	private bool isNotJump = false;
 	// Use this for initialization
 	void Awake () {
 		pi = GetComponent<InputControl>();
@@ -26,8 +28,17 @@ public class ActorControl : MonoBehaviour {
 	{	
 		float TargetRunMutil = pi.run?2.0f:1.0f;//walk转run
 		anim.SetFloat("forward",pi.Dmag*Mathf.Lerp(anim.GetFloat("forward"),TargetRunMutil,0.1f));
+		
+		if(rigid.velocity.magnitude>5.0f)
+			anim.SetTrigger("roll");
+		
 		if(pi.jump)
-		anim.SetTrigger("jump");
+		{
+			anim.SetTrigger("jump");
+			isNotJump = false;
+		}
+		if(pi.attach&&checkeState("ground")&&isNotJump&&anim.IsInTransition(0)==false)
+			anim.SetTrigger("attach");
 
 		if(pi.Dmag>0.1f)//模为0时，pi.Dvec将为(0,0,0)，forword将变回初始值,>0.1f是因为pi里面的Dright和Dup不一定为0
 			model.transform.forward = Vector3.Slerp(model.transform.forward,pi.Dvec,0.8f);
@@ -41,19 +52,43 @@ public class ActorControl : MonoBehaviour {
 		rigid.velocity = new Vector3(movingvec.x,rigid.velocity.y,movingvec.z) + trustvec;
 		trustvec = Vector3.zero;
 	}
+	private bool checkeState(string stateName,string layerName = "Base Layer")
+	{
+		int layerIndex = anim.GetLayerIndex(layerName);
+		bool result = anim.GetCurrentAnimatorStateInfo(layerIndex).IsName(stateName);
+		return result;
+	}
 	// 
     //  Message block
 	// 
 	private void OnJumpEnter()
 	{
+		isNotJump = false;
 		trustvec = new Vector3(0.0f,jumpVelocity,0.0f);
 		lockPlaner = true;//保留行走的movingvec状态
 		pi.InputEnabled = false;//空中无法控制
 	}
 
+	private void OnRollEnter()
+	{
+		isNotJump = false;
+		trustvec = new Vector3(0.0f,rollVelocity,0.0f);
+		lockPlaner = true;//保留行走的movingvec状态
+		pi.InputEnabled = false;//空中无法控制
+	}
+	
+	private void OnJabEnter()
+	{
+		isNotJump = false;
+		lockPlaner = true;//保留行走的movingvec状态
+		pi.InputEnabled = false;//空中无法控制
+	}
+	private void OnJabUpdate()
+	{
+		trustvec = model.transform.forward * anim.GetFloat("jabVec");
+	}
 	private void IsGround()
 	{
-		lockPlaner = false;
 		anim.SetBool("isGround",true);
 	}
 	private void IsNotGround()
@@ -62,14 +97,33 @@ public class ActorControl : MonoBehaviour {
 	}
 	private void OnGroundEnter()
 	{
-		print("")
+		isNotJump = true;
 		lockPlaner = false;
 		pi.InputEnabled = true;
 	}
 	private void OnFailEnter()
 	{
+		isNotJump = false;
 		lockPlaner = true;
 		pi.InputEnabled = false;
+	}
+
+	//attach layer
+	private void OnAttachIdleEnter()
+	{
+		pi.InputEnabled = true;
+		anim.SetLayerWeight(anim.GetLayerIndex("Attach"),0.0f);
+	}
+
+	private void OnAttach01HAEnter()
+	{
+		pi.InputEnabled = false;
+		anim.SetLayerWeight(anim.GetLayerIndex("Attach"),1.0f);
+	}
+
+	private void OnAttach01HAUpdate()
+	{
+		trustvec = model.transform.forward * anim.GetFloat("attachVec");
 	}
 }
 
