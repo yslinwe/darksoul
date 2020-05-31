@@ -9,18 +9,26 @@ public class ActorControl : MonoBehaviour {
 	public float runSpeed = 2.8f;
 	public float jumpVelocity = 5.0f;
 	public float rollVelocity = 3.0f;
+	[Space(10)]
+	[Header("===== friction settings =====")] //地面物体要设layer 为ground 
+	public PhysicMaterial frictionOne;
+	public PhysicMaterial frictionZero;
+	private float targetLerp;
 	private Animator anim;
 	//[SerializeField]
 	private Rigidbody rigid;
 	private Vector3 movingvec;
 	private Vector3 trustvec;
+	private Vector3 deltaPos;
 	private bool lockPlaner = false;
 	private bool isNotJump = false;
+	private CapsuleCollider col;
 	// Use this for initialization
 	void Awake () {
-		pi = GetComponent<InputControl>();
-		anim = model.GetComponent<Animator>();
+		pi    = GetComponent<InputControl>();
+		anim  = model.GetComponent<Animator>();
 		rigid = GetComponent<Rigidbody>();
+		col   = GetComponent<CapsuleCollider>();
 	}
 	
 	// Update is called once per frame
@@ -49,8 +57,10 @@ public class ActorControl : MonoBehaviour {
 	void FixedUpdate()//Time.fixedDeltaTime
 	{
 		//rigid.position += movingvec * Time.fixedDeltaTime;
+		rigid.position += deltaPos;
 		rigid.velocity = new Vector3(movingvec.x,rigid.velocity.y,movingvec.z) + trustvec;
 		trustvec = Vector3.zero;
+		deltaPos = Vector3.zero;
 	}
 	private bool checkeState(string stateName,string layerName = "Base Layer")
 	{
@@ -100,6 +110,11 @@ public class ActorControl : MonoBehaviour {
 		isNotJump = true;
 		lockPlaner = false;
 		pi.InputEnabled = true;
+		col.material = frictionOne;
+	}
+	private void OnGroundExit()
+	{
+		col.material = frictionZero;
 	}
 	private void OnFailEnter()
 	{
@@ -112,18 +127,46 @@ public class ActorControl : MonoBehaviour {
 	private void OnAttachIdleEnter()
 	{
 		pi.InputEnabled = true;
-		anim.SetLayerWeight(anim.GetLayerIndex("Attach"),0.0f);
+		//anim.SetLayerWeight(anim.GetLayerIndex("Attach"),0.0f);
+		targetLerp = 0.0f;
 	}
-
+	private void OnAttachIdleUpdate()
+	{
+		_LerpAttachLayerWeight();
+	}
 	private void OnAttach01HAEnter()
 	{
 		pi.InputEnabled = false;
-		anim.SetLayerWeight(anim.GetLayerIndex("Attach"),1.0f);
+		//anim.SetLayerWeight(anim.GetLayerIndex("Attach"),1.0f);
+		targetLerp = 1.0f;
 	}
 
 	private void OnAttach01HAUpdate()
 	{
 		trustvec = model.transform.forward * anim.GetFloat("attachVec");
+		_LerpAttachLayerWeight();
+	}
+	private void OnAttach03HAEnter()
+	{
+		pi.InputEnabled = false;
+		//anim.SetLayerWeight(anim.GetLayerIndex("Attach"),1.0f);
+	}
+
+	private void OnAttach03HAUpdate()
+	{
+		trustvec = model.transform.forward * anim.GetFloat("attachVec");
+	}
+	private void _LerpAttachLayerWeight()
+	{
+		int layerIndex = anim.GetLayerIndex("Attach");
+		float currentWeight = anim.GetLayerWeight(layerIndex);
+		currentWeight = Mathf.Lerp(currentWeight,targetLerp,0.4f);
+		anim.SetLayerWeight(layerIndex,currentWeight);
+	}
+	private void OnUpdateRM(object _deltaPos)
+	{
+		if(checkeState("attach01hC","Attach"))
+			deltaPos += (Vector3)_deltaPos;
 	}
 }
 

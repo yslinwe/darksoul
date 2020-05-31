@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour {
 	public float cameraSmoothDamp = 0.05f;
 	private GameObject PlayHandler;
 	private GameObject CameraHandler;
-	private GameObject camera;
+	private GameObject playerCamera;
 	private GameObject model;
 	// Use this for initialization
 	private float tempEulerAnglex;
@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour {
 		PlayHandler = CameraHandler.transform.parent.gameObject;
 		model = PlayHandler.GetComponent<ActorControl>().model;
 		tempEulerAnglex = 10.0f;
-		camera = Camera.main.gameObject;
+		playerCamera = Camera.main.gameObject;
 	}
 	
 	// Update is called once per frame
@@ -36,7 +36,7 @@ public class CameraController : MonoBehaviour {
 
 		model.transform.eulerAngles = tempModelAngle;
 
-		camera.transform.position = Vector3.SmoothDamp(camera.transform.position , transform.position ,ref currentVelocity ,cameraSmoothDamp);
-		camera.transform.eulerAngles = transform.eulerAngles;
+		playerCamera.transform.position = Vector3.SmoothDamp(playerCamera.transform.position , transform.position ,ref currentVelocity ,cameraSmoothDamp);
+		playerCamera.transform.eulerAngles = transform.eulerAngles;
 	}
 }

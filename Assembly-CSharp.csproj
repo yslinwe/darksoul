@@ -51,10 +51,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\AnimaTriggerController.cs" />
+     <Compile Include="Assets\RootMotionContriler.cs" />
      <Compile Include="Assets\Sricpt\ActorControl.cs" />
+     <Compile Include="Assets\Sricpt\CameraController.cs" />
      <Compile Include="Assets\Sricpt\FSMClearSignal.cs" />
      <Compile Include="Assets\Sricpt\FSMOnEnter.cs" />
      <Compile Include="Assets\Sricpt\FSMOnExit.cs" />
+     <Compile Include="Assets\Sricpt\FSMOnUpdate.cs" />
      <Compile Include="Assets\Sricpt\InputControl.cs" />
      <Compile Include="Assets\Sricpt\OnGroundSensor.cs" />
  <Reference Include="UnityEngine.CoreModule">
