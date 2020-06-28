@@ -9,9 +9,8 @@ public class AnimaTriggerController : MonoBehaviour {
 	{
 		anim = GetComponent<Animator>();
 	}
-	private void ResetTrigge(string triggerName)
+	private void ResetTrigge(string triggerName) //让攻击不是那么容连招
 	{
-		print(triggerName);
 		anim.ResetTrigger(triggerName);
 	}
 }
