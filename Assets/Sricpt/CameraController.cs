@@ -76,7 +76,7 @@ public class CameraController : MonoBehaviour {
 		Vector3 modelOrigin = model.transform.position + new Vector3(0,1,0);
 		Vector3 boxCenter = modelOrigin + model.transform.forward * 5.0f;
 		Collider[] cols = Physics.OverlapBox(boxCenter,new Vector3(0.5f,0.5f,5f),
-		model.transform.rotation,LayerMask.GetMask("Enmey"));
+		model.transform.rotation,LayerMask.GetMask("Enemy"));
 
 		if(cols.Length == 0)
 		{

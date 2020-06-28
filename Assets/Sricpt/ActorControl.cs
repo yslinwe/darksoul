@@ -22,7 +22,7 @@ public class ActorControl : MonoBehaviour {
 	private Vector3 trustvec;
 	private Vector3 deltaPos;
 	private bool lockPlaner = false;
-	private bool trackDirection = false;
+	private bool trackDirection = false;//锁定方向判断
 	private bool isNotJump = false;
 	private CapsuleCollider col;
 	// Use this for initialization

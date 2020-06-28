@@ -51,16 +51,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\AnimaTriggerController.cs" />
-     <Compile Include="Assets\RootMotionContriler.cs" />
      <Compile Include="Assets\Sricpt\ActorControl.cs" />
+     <Compile Include="Assets\Sricpt\AnimaTriggerController.cs" />
      <Compile Include="Assets\Sricpt\CameraController.cs" />
      <Compile Include="Assets\Sricpt\FSMClearSignal.cs" />
      <Compile Include="Assets\Sricpt\FSMOnEnter.cs" />
      <Compile Include="Assets\Sricpt\FSMOnExit.cs" />
      <Compile Include="Assets\Sricpt\FSMOnUpdate.cs" />
-     <Compile Include="Assets\Sricpt\InputControl.cs" />
+     <Compile Include="Assets\Sricpt\IUserInput.cs" />
+     <Compile Include="Assets\Sricpt\KeyBoardInput.cs" />
+     <Compile Include="Assets\Sricpt\LeftArmAnimFix.cs" />
+     <Compile Include="Assets\Sricpt\MyButton.cs" />
+     <Compile Include="Assets\Sricpt\MyTimer.cs" />
      <Compile Include="Assets\Sricpt\OnGroundSensor.cs" />
+     <Compile Include="Assets\Sricpt\RootMotionContriler.cs" />
  <Reference Include="UnityEngine.CoreModule">
  <HintPath>D:/Program Files/Unity2017/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
  </Reference>
