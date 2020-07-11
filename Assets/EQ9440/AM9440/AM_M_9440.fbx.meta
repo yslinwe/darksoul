@@ -1,0 +1,255 @@
+fileFormatVersion: 2
+guid: 93f5b9505d4050f4d8507257f0cb9fd7
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: AM9440
+    100002: //RootNode
+    100004: ArmatureMan
+    100006: calf.L
+    100008: calf.R
+    100010: foot.L
+    100012: foot.R
+    100014: hand.L
+    100016: hand.R
+    100018: head
+    100020: head_end
+    100022: index1.L
+    100024: index1.R
+    100026: index2.L
+    100028: index2.R
+    100030: index3.L
+    100032: index3.L_end
+    100034: index3.R
+    100036: index3.R_end
+    100038: lowerArm.L
+    100040: lowerArm.R
+    100042: middle1.L
+    100044: middle1.R
+    100046: middle2.L
+    100048: middle2.R
+    100050: middle3.L
+    100052: middle3.L_end
+    100054: middle3.R
+    100056: middle3.R_end
+    100058: neck
+    100060: pelvis
+    100062: pink1.L
+    100064: pink1.R
+    100066: pink2.L
+    100068: pink2.R
+    100070: pink3.L
+    100072: pink3.L_end
+    100074: pink3.R
+    100076: pink3.R_end
+    100078: ring1.L
+    100080: ring1.R
+    100082: ring2.L
+    100084: ring2.R
+    100086: ring3.L
+    100088: ring3.L_end
+    100090: ring3.R
+    100092: ring3.R_end
+    100094: shoulder.L
+    100096: shoulder.R
+    100098: spine1
+    100100: spine2
+    100102: spine3
+    100104: thigh.L
+    100106: thigh.R
+    100108: thumb1.L
+    100110: thumb1.R
+    100112: thumb2.L
+    100114: thumb2.R
+    100116: thumb3.L
+    100118: thumb3.L_end
+    100120: thumb3.R
+    100122: thumb3.R_end
+    100124: toes.L
+    100126: toes.L_end
+    100128: toes.R
+    100130: toes.R_end
+    100132: upperArm.L
+    100134: upperArm.R
+    400000: AM9440
+    400002: //RootNode
+    400004: ArmatureMan
+    400006: calf.L
+    400008: calf.R
+    400010: foot.L
+    400012: foot.R
+    400014: hand.L
+    400016: hand.R
+    400018: head
+    400020: head_end
+    400022: index1.L
+    400024: index1.R
+    400026: index2.L
+    400028: index2.R
+    400030: index3.L
+    400032: index3.L_end
+    400034: index3.R
+    400036: index3.R_end
+    400038: lowerArm.L
+    400040: lowerArm.R
+    400042: middle1.L
+    400044: middle1.R
+    400046: middle2.L
+    400048: middle2.R
+    400050: middle3.L
+    400052: middle3.L_end
+    400054: middle3.R
+    400056: middle3.R_end
+    400058: neck
+    400060: pelvis
+    400062: pink1.L
+    400064: pink1.R
+    400066: pink2.L
+    400068: pink2.R
+    400070: pink3.L
+    400072: pink3.L_end
+    400074: pink3.R
+    400076: pink3.R_end
+    400078: ring1.L
+    400080: ring1.R
+    400082: ring2.L
+    400084: ring2.R
+    400086: ring3.L
+    400088: ring3.L_end
+    400090: ring3.R
+    400092: ring3.R_end
+    400094: shoulder.L
+    400096: shoulder.R
+    400098: spine1
+    400100: spine2
+    400102: spine3
+    400104: thigh.L
+    400106: thigh.R
+    400108: thumb1.L
+    400110: thumb1.R
+    400112: thumb2.L
+    400114: thumb2.R
+    400116: thumb3.L
+    400118: thumb3.L_end
+    400120: thumb3.R
+    400122: thumb3.R_end
+    400124: toes.L
+    400126: toes.L_end
+    400128: toes.R
+    400130: toes.R_end
+    400132: upperArm.L
+    400134: upperArm.R
+    2100000: AM_M_9440_0
+    2100002: AM_M_9440_2
+    2100004: AM_M_9440_1
+    4300000: AM9440
+    7400000: ArmatureMan|ArmatureMan|ArmatureMan|ArmatureMan|ArmatureMan|idle|ArmatureMa
+    7400002: ArmatureMan.001|ArmatureMan.001|ArmatureMan|ArmatureMan|ArmatureMan|ArmatureMan
+    7400004: ArmatureMan.001|ArmatureMan|ArmatureMan|ArmatureMan|ArmatureMan|idle|ArmatureMa
+    9500000: //RootNode
+    13700000: AM9440
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AM_M_9440_0
+    second: {fileID: 2100000, guid: a9cbcb6c1cebc084b8cc93f232ee5a9f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AM_M_9440_0.001
+    second: {fileID: 2100000, guid: a9cbcb6c1cebc084b8cc93f232ee5a9f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AM_M_9440_1
+    second: {fileID: 2100000, guid: a9cbcb6c1cebc084b8cc93f232ee5a9f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AM_M_9440_1.001
+    second: {fileID: 2100000, guid: a9cbcb6c1cebc084b8cc93f232ee5a9f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AM_M_9440_2
+    second: {fileID: 2100000, guid: 472dbf2cff3df074b8d5ef7e8b28532b, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 1
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 1
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

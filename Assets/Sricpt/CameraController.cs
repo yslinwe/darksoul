@@ -10,22 +10,28 @@ public class CameraController : MonoBehaviour {
 	public float cameraSmoothDamp = 0.05f;
 	public Image lockDot;
 	public bool lockState;
+	public bool IsAI;
 	private GameObject PlayHandler;
 	private GameObject CameraHandler;
-	private GameObject camera;
+	private GameObject maincamera;
 	private GameObject model;
 	private LockTarget lockTarget;
 	// Use this for initialization
 	private float tempEulerAnglex;
 	private Vector3 currentVelocity;
-	void Awake () {
+	void Start () {
 		CameraHandler = transform.parent.gameObject;
 		PlayHandler = CameraHandler.transform.parent.gameObject;
-		model = PlayHandler.GetComponent<ActorControl>().model;
+		ActorControl ac = PlayHandler.GetComponent<ActorControl>();
+		model = ac.model;
+		pi = ac.pi;
 		tempEulerAnglex = 20.0f;
-		camera = Camera.main.gameObject;
-		Cursor.lockState = CursorLockMode.Locked;
-		lockDot.enabled = false;
+		if(!IsAI)
+		{
+			maincamera = Camera.main.gameObject;
+			Cursor.lockState = CursorLockMode.Locked;
+			lockDot.enabled = false;
+		}
 		lockState = false;
 	}
 	
@@ -50,21 +56,26 @@ public class CameraController : MonoBehaviour {
 			PlayHandler.transform.forward = tempModelforward;
 			CameraHandler.transform.LookAt(lockTarget.obj.transform.position);
 		}
-
-		camera.transform.position = Vector3.SmoothDamp(camera.transform.position , transform.position ,ref currentVelocity ,cameraSmoothDamp);
-		//camera.transform.eulerAngles = transform.eulerAngles;
-		camera.transform.LookAt(CameraHandler.transform);
+		if(!IsAI)
+		{
+			maincamera.transform.position = Vector3.SmoothDamp(maincamera.transform.position , transform.position ,ref currentVelocity ,cameraSmoothDamp);
+		//	maincamera.transform.eulerAngles = transform.eulerAngles;
+			maincamera.transform.LookAt(transform.position);
+		}
 	}
 	void Update()
 	{
 		if(lockTarget != null)
 		{
-			lockDot.rectTransform.position = Camera.main.WorldToScreenPoint(lockTarget.obj.transform.position + new Vector3(0.0f,lockTarget.halfHeight,0.0f));
+			if(!IsAI)
+				lockDot.rectTransform.position = Camera.main.WorldToScreenPoint(lockTarget.obj.transform.position + new Vector3(0.0f,lockTarget.halfHeight,0.0f));
 			if(Vector3.Distance(lockTarget.obj.transform.position,model.transform.position)>10.0f)
 			{
-				lockTarget = null;
-				lockDot.enabled = false;
-				lockState = false;
+				lockSetting(null,false,false,IsAI);
+			}
+			if(lockTarget.am !=null && lockTarget.am.sm.isDie)
+			{
+				lockSetting(null,false,false,IsAI);
 			}
 		}
 	}
@@ -78,9 +89,7 @@ public class CameraController : MonoBehaviour {
 
 		if(cols.Length == 0)
 		{
-			lockTarget = null;
-			lockDot.enabled = false;
-			lockState = false;
+			lockSetting(null,false,false,IsAI);
 		}
 		else
 		{
@@ -88,26 +97,41 @@ public class CameraController : MonoBehaviour {
 			{
 				if(lockTarget != null&&lockTarget.obj == col.gameObject)
 				{
-					lockTarget = null;
-					lockDot.enabled = false;
-					lockState = false;
+					lockSetting(null,false,false,IsAI);
 					break;
 				}
 				lockTarget = new LockTarget(col.gameObject,col.bounds.extents.y);
-				lockDot.enabled = true;
-				lockState = true;
+				if(lockTarget.am !=null && lockTarget.am.sm.isDie)
+				{
+					lockSetting(null,false,false,IsAI);
+				}
+				else
+				{
+					lockSetting(lockTarget,true,true,IsAI);
+				}
 				break;
 			}
 		}
+	}
+	private void lockSetting(LockTarget _lockTarget,bool _lockDotEnable,bool _lockState,bool IsAI)
+	{
+		lockTarget = _lockTarget;
+		if(!IsAI)
+		{
+			lockDot.enabled = _lockDotEnable;
+		}
+		lockState = _lockState;
 	}
 	private class LockTarget
 	{
 		public GameObject obj;
 		public float halfHeight;
+		public ActorManager am;
 		public LockTarget(GameObject _obj,float _halfHeight)
 		{
 			obj = _obj;
 			halfHeight = _halfHeight;
+			am = obj.GetComponent<ActorManager>();
 		}
 	}
 }

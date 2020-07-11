@@ -1,7 +1,5 @@
 fileFormatVersion: 2
-guid: 5a381a24bdd577b488da07a68787f65b
-timeCreated: 1516481157
-licenseType: Free
+guid: d793b3f5a730d41499a97c5f4fe536f1
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -421,12 +419,7 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: "Avatar Rig Configuration mis-match. Bone length in configuration
-      does not match position in animation file:\n\t'thigh.L' : position error = 89.818550
-      mm\n\t'calf.L' : position error = 353.611969 mm\n\t'foot.L' : position error
-      = 433.230988 mm\n\t'toes.L' : position error = 156.996094 mm\n\t'thigh.R' :
-      position error = 89.818550 mm\n\t'calf.R' : position error = 353.611969 mm\n\t'foot.R'
-      : position error = 433.231018 mm\n\t'toes.R' : position error = 156.996124 mm\n"
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
