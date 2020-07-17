@@ -218,13 +218,6 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.76107365
-        functionName: WeaponDisable
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
       - time: 0.26624393
         functionName: WeaponDisable
         data: 
@@ -248,6 +241,13 @@ ModelImporter:
         messageOptions: 0
       - time: 0.6477501
         functionName: WeaponEnable
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.76107365
+        functionName: WeaponDisable
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

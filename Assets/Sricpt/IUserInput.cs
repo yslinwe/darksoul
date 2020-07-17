@@ -22,6 +22,7 @@ public abstract class IUserInput : MonoBehaviour { //设置成抽象类，无法
 	public bool rt;
 	public bool lb;
 	public bool lt;
+	public bool action;
 	//3.double signal
 	public bool jump;
 	[Header("====others====")]

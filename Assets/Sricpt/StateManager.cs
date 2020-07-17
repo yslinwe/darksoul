@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class StateManager : IActorManagerInterface {
 	
-	public float maxHP = 15.0f;
+	public float maxHP = 100.0f;
 	public float HP = 15.0f;
+	public float ATK = 1.0f;
 	[Header("1st order state flags")]
 	public bool isGround;
 	public bool isJump;

@@ -8,25 +8,35 @@ public class WeaponManager : IActorManagerInterface {
 	public GameObject whR;
 	public WeaponController wcL;
 	public WeaponController wcR;
-
+	[SerializeField]
 	private Collider weaponColL;
+	[SerializeField]
 	private Collider weaponColR;
 	void Start()
 	{
-		whR = transform.DeepFind("weaponHandleR").gameObject;
-		whL = transform.DeepFind("weaponHandleL").gameObject;
+		try
+		{
+			whR = transform.DeepFind("weaponHandleR").gameObject;
+			wcR = BindWeaponController(whR);
+			weaponColR = whR.GetComponentInChildren<Collider>();
+		}
+		catch (System.Exception)
+		{
+			//Debug.Log("there is not weaponHandleR"); 
+			//throw e;
+		}
 
-		if(whR==null)
-			Debug.LogError("can not find whR");
-		whL = transform.DeepFind("weaponHandleL").gameObject;
-		if(whL==null)
-			Debug.LogError("can not find whL");
-
-		wcR = BindWeaponController(whR);
-		wcL = BindWeaponController(whL);
-
-		weaponColR = whR.GetComponentInChildren<Collider>();
-		weaponColL = whL.GetComponentInChildren<Collider>();
+		try
+		{
+			whL = transform.DeepFind("weaponHandleL").gameObject;
+			wcL = BindWeaponController(whL);
+			weaponColL = whL.GetComponentInChildren<Collider>();
+		}
+		catch (System.Exception)
+		{
+			
+			//Debug.Log("there is not weaponHandleL"); 
+		}
 		WeaponDisable();
 	}
 	private WeaponController BindWeaponController(GameObject targetObj)
@@ -42,19 +52,25 @@ public class WeaponManager : IActorManagerInterface {
 	}
 	public void WeaponEnable()
 	{
-		if (am.ac.checkeStateTag("attackL"))
+		if (am.ac.checkeStateTag("attackL")&&weaponColL !=null)
 		{
 			weaponColL.enabled = true;
 		}
-		else
+		if(weaponColR != null)
 		{
 			weaponColR.enabled = true;
 		}
 	} 
 	public void WeaponDisable()
 	{
-		weaponColL.enabled = false;
-		weaponColR.enabled = false;
+		if(weaponColL !=null )
+		{
+			weaponColL.enabled = false;
+		}
+		if(weaponColR != null)
+		{
+			weaponColR.enabled = false;
+		}
 	}
 	public void CounterBackEnable()
 	{
@@ -63,5 +79,37 @@ public class WeaponManager : IActorManagerInterface {
 	public void CounterBackDisable()
 	{
 		am.setCounterBack(false);
+	}
+	public void updateWeaponCollider(string side, Collider col)
+	{
+		if(side == "L")
+			weaponColL = col;
+		else if(side == "R")
+			weaponColR =col;
+	}
+	public void clearWeapon(string side)
+	{
+		if(side == "L")
+		{
+			weaponColL = null;
+			wcL.wData = null;
+			foreach (Transform tran in whL.transform)
+			{
+				Destroy(tran.gameObject);
+			}
+		}
+		else if(side == "R")
+		{
+			weaponColR = null;
+			wcR.wData = null;
+			foreach (Transform tran in whR.transform)
+			{
+				Destroy(tran.gameObject);
+			}
+		}
+	}
+	public void changeDualHands(bool dualON)
+	{
+		am.changeDualHands(dualON);
 	}
 }

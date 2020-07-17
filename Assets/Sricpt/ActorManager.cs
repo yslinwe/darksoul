@@ -8,20 +8,38 @@ public class ActorManager : MonoBehaviour {
 	public WeaponManager wm;
 	public StateManager sm;
 	public DriectorManager dm;
+	public InterActionManager im;
+	public AnimatorOverrideController oneHand;
+	public AnimatorOverrideController twoHand;
 	// Use this for initialization
 	void Awake () {
 		ac = GetComponent<ActorControl>();
 		GameObject model = ac.model;
-		GameObject sensor = transform.Find("sensor").gameObject;
-		bm = sensor.GetComponent<BattleManager>();
+		GameObject sensor = null;
+		try
+		{
+			 sensor = transform.Find("sensor").gameObject;			
+		}
+		catch (System.Exception)
+		{
+			
+			//throw;
+			// there is not sensor or relate object
+			//
+		}
+
 		bm = Bind<BattleManager>(sensor);
 		wm = Bind<WeaponManager>(model);
 		sm = Bind<StateManager>(gameObject);
 		dm = Bind<DriectorManager>(gameObject);
+		im = Bind<InterActionManager>(sensor);
 		
+		ac.OnAction += doAction;
 	}
 	private T Bind<T>(GameObject go) where T : IActorManagerInterface
 	{
+		if(go == null)
+			return null;
 		T tempInstance = go.GetComponent<T>();
 		if(tempInstance == null)
 		{
@@ -30,10 +48,46 @@ public class ActorManager : MonoBehaviour {
 		tempInstance.am = this;
 		return tempInstance;
 	}
-	// Update is called once per frame
-	void Update () {
+	// // Update is called once per frame
+	// void Update () {
 		
+	// }
+	public void doAction()
+	{
+		foreach (var ecastm in im.overlapEcastms)
+		{
+			if(ecastm.eventName == "frontStab" && ecastm.active &&!dm.isPlayTimeline())
+			{
+				if(bm.checkAngleTarget(ac.model,ecastm.am.gameObject,15))
+				{
+					transform.position = ecastm.am.transform.position + ecastm.am.transform.TransformVector(ecastm.offest);
+					ac.model.transform.LookAt(ecastm.am.transform,Vector3.up);
+					dm.playFrontStab("frontStab",this,ecastm.am);
+				}
+			}
+			else if(ecastm.eventName == "openBox" && ecastm.active &&!dm.isPlayTimeline())
+			{
+				if(bm.checkAngleTarget(ac.model,ecastm.am.gameObject,15))
+				{
+					transform.position = ecastm.am.transform.position + ecastm.am.transform.TransformVector(ecastm.offest);
+					ac.model.transform.LookAt(ecastm.am.transform,Vector3.up);
+					ecastm.active = false;
+					dm.playFrontStab("openBox",this,ecastm.am);
+				}
+			} 
+			else if(ecastm.eventName == "LeverUp" && ecastm.active &&!dm.isPlayTimeline())
+			{
+				if(bm.checkAngleTarget(ac.model,ecastm.am.gameObject,15))
+				{
+					transform.position = ecastm.am.transform.position + ecastm.am.transform.TransformVector(ecastm.offest);
+					ac.model.transform.LookAt(ecastm.am.transform,Vector3.up);
+					//ecastm.active = false;
+					dm.playFrontStab("LeverUp",this,ecastm.am);
+				}
+			} 
+		}
 	}
+
 	public void tryDoDamage(WeaponController targetWc, bool attackVaild, bool counterVaild)
 	{
 		if(sm.isCounterBack)
@@ -49,23 +103,22 @@ public class ActorManager : MonoBehaviour {
 			else if(sm.isCounterBackFailure)
 			{
 				if(attackVaild) 
-					HitOrDie(false);
+					HitOrDie(targetWc,false);
 			}
 		}
 		else if(sm.isImmortal)
 		{
 			//do nothing
 		}
-		else if(sm.isDefense)
+		else if(sm.isDefense&&counterVaild)
 		{
 			//Attack should be blocked
-			if(attackVaild) 
-				Blocked();
+			Blocked();
 		}
 		else
 		{
 			if(attackVaild) 
-				HitOrDie(true);
+				HitOrDie(targetWc,true);
 		}
 	}
 	public void CounterBack()
@@ -95,7 +148,7 @@ public class ActorManager : MonoBehaviour {
 			ac.camCon.enabled = false;
 
 	}
-	public void HitOrDie(bool isAnimationHit)
+	public void HitOrDie(WeaponController targetWc, bool isAnimationHit)
 	{
 		if(sm.HP<=0)
 		{
@@ -103,7 +156,7 @@ public class ActorManager : MonoBehaviour {
 		}
 		else
 		{
-			sm.changeHp(-5);
+			sm.changeHp(-1*targetWc.GetATK());
 			if(sm.HP > 0)
 			{
 				if(isAnimationHit)
@@ -129,5 +182,16 @@ public class ActorManager : MonoBehaviour {
 	public void UnlockActorController()
 	{
 		ac.setBool("lock",false);
+	}
+	public void changeDualHands(bool dualON)
+	{
+		if(dualON)
+		{
+			ac.anim.runtimeAnimatorController = twoHand;
+		}
+		else
+		{
+			ac.anim.runtimeAnimatorController = oneHand;
+		}
 	}
 }

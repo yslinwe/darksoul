@@ -19,20 +19,38 @@ public class BattleManager : IActorManagerInterface {
 			print("null");
 		if(col.tag == "Weapon")
 		{
+			Debug.Log(col.name);
 			WeaponController targetWc = col.GetComponentInParent<WeaponController>(); //获取攻击方
-			GameObject attacker = targetWc.wm.am.gameObject;
-			GameObject receiver = am.gameObject;
-			Vector3 attackDir = receiver.transform.position - attacker.transform.position; 
-			Vector3 counterDir = attacker.transform.position - receiver.transform.position;
+			GameObject player = targetWc.wm.am.gameObject;
+			GameObject target = am.ac.model;
+			// Vector3 attackDir = target.transform.position - player.transform.position; 
+			// Vector3 counterDir = player.transform.position - target.transform.position;
 			
-			//Vector.Angle 不计算方向
-			float attackAngle1 = Vector3.Angle(attackDir,attacker.transform.forward); //攻击范围
-			float counterAngle1 = Vector3.Angle(receiver.transform.forward,counterDir); //盾反范围
-			float counterAngle2 = Vector3.Angle(receiver.transform.forward,attacker.transform.forward); // 判断是否面对面
-			bool attackVaild = (attackAngle1 < 45);
-			bool counterrVaild = (counterAngle1 < 45) && (Mathf.Abs(counterAngle2 - 180) < 45);
+			// //Vector.Angle 不计算方向
+			// float attackAngle1 = Vector3.Angle(attackDir,player.transform.forward); //攻击范围
+			// float counterAngle1 = Vector3.Angle(target.transform.forward,counterDir); //盾反范围
+			// float counterAngle2 = Vector3.Angle(target.transform.forward,player.transform.forward); // 判断是否面对面
+			bool attackVaild = checkAnglePlayer(player,target,70);
+			bool counterrVaild = checkAngleTarget(player,target,30);
 			am.tryDoDamage(targetWc,attackVaild,counterrVaild);
 		}
 			
+	}
+	public bool checkAngleTarget(GameObject player,GameObject target, float targetAngleLimit)
+	{
+		Vector3 counterDir = player.transform.position - target.transform.position;
+		//Vector.Angle 不计算方向
+		float counterAngle1 = Vector3.Angle(target.transform.forward,counterDir); //盾反范围
+		float counterAngle2 = Vector3.Angle(target.transform.forward,player.transform.forward); // 判断是否面对面
+		bool counterrVaild = (counterAngle1 < targetAngleLimit) && (Mathf.Abs(counterAngle2 - 180) < targetAngleLimit);
+		return counterrVaild;
+	}
+	public bool checkAnglePlayer(GameObject player,GameObject target, float playerAngleLimit)
+	{
+		Vector3 attackDir = target.transform.position - player.transform.position; 
+		float attackAngle1 = Vector3.Angle(attackDir,player.transform.forward); //攻击范围
+		//Vector.Angle 不计算方向
+		bool attackVaild = (attackAngle1 < playerAngleLimit);
+		return attackVaild;
 	}
 }
