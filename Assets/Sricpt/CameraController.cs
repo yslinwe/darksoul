@@ -66,20 +66,20 @@ public class CameraController : MonoBehaviour {
 	void Update()
 	{
 		if(lockTarget != null)
-		{
-			if(!IsAI)
-				lockDot.rectTransform.position = Camera.main.WorldToScreenPoint(lockTarget.obj.transform.position + new Vector3(0.0f,lockTarget.halfHeight,0.0f));
-			if(Vector3.Distance(lockTarget.obj.transform.position,model.transform.position)>10.0f)
-			{
-				lockSetting(null,false,false,IsAI);
-			}
-			if(lockTarget.am !=null && lockTarget.am.sm.isDie)
-			{
-				lockSetting(null,false,false,IsAI);
-			}
-		}
-	}
-	public void LockUnlock()
+        {
+            if (!IsAI)
+                lockDot.rectTransform.position = Camera.main.WorldToScreenPoint(lockTarget.obj.transform.position + new Vector3(0.0f, lockTarget.halfHeight, 0.0f));
+            if (Vector3.Distance(lockTarget.obj.transform.position, model.transform.position) > 10.0f)
+            {
+                lockSetting(null, false, false, IsAI);
+            }
+            else if (lockTarget.am != null&& lockTarget.am.sm.isDie)
+            {
+                lockSetting(null, false, false, IsAI);
+            }
+        }
+    }
+    public void LockUnlock()
 	{
 		
 		Vector3 modelOrigin = model.transform.position + new Vector3(0,1,0);

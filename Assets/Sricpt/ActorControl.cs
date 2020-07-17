@@ -26,6 +26,8 @@ public class ActorControl : MonoBehaviour {
 	private bool trackDirection = false;//锁定方向判断
 	private bool canAttack = false;
 	private CapsuleCollider col;
+	public delegate void OnActionDelegate();
+	public event OnActionDelegate OnAction;
 	// Use this for initialization
 	void Awake () {
 		IUserInput [] inputs  = GetComponents<IUserInput>(); //多种输入方式
@@ -42,7 +44,7 @@ public class ActorControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update ()//Time.deltaTime 1/60
-	{	
+	{	//锁定敌人
 		if (pi.lockon)
 		{
 			camCon.LockUnlock();
@@ -128,12 +130,14 @@ public class ActorControl : MonoBehaviour {
 		}
 		if(camCon.lockState == false)
 		{
-			if(pi.Dmag>0.1f)//模为0时，pi.Dvec将为(0,0,0)，forword将变回初始值,>0.1f是因为pi里面的Dright和Dup不一定为0
-				model.transform.forward = Vector3.Slerp(model.transform.forward,pi.Dvec,0.8f);
-			
+			if(pi.InputEnabled == true)
+			{
+				if(pi.Dmag>0.1f)//模为0时，pi.Dvec将为(0,0,0)，forword将变回初始值,>0.1f是因为pi里面的Dright和Dup不一定为0
+					model.transform.forward = Vector3.Slerp(model.transform.forward,pi.Dvec,0.8f);
+			}
 			if(lockPlaner==false)
 				movingvec = model.transform.forward * pi.Dmag * walkSpeed*(pi.run?runSpeed:1.0f);
-			}
+		}
 		else
 		{
 			if(lockPlaner == false)
@@ -145,7 +149,10 @@ public class ActorControl : MonoBehaviour {
 					model.transform.forward = movingvec.normalized;
 
 		}
-
+		if(pi.action)
+		{
+			OnAction.Invoke();
+		}
 	}
 	void FixedUpdate()//Time.fixedDeltaTime
 	{
@@ -295,6 +302,12 @@ public class ActorControl : MonoBehaviour {
 	private void OnCounterBackExit()
 	{
 		model.SendMessage("CounterBackDisable");
+	}
+	private void OnLockEnter()
+	{
+		pi.InputEnabled =false;
+		lockPlaner = false;
+		model.SendMessage("WeaponDisable");
 	}
 	// 工具方法
 	public void issueTrigger(string triggerName)

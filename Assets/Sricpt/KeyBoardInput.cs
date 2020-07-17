@@ -20,12 +20,13 @@ public class KeyBoardInput : IUserInput {
 	public string KeyJLeft = "left";	
 	public string KeyJRight = "right";
 	public string KeyJstick = "q";
+	public string KeyAction = "h";
 	[Header("==== mouse setting ====")]
 	public bool mouseEnable = false;
 	public float sensitivityX = 1.0f;
 	public float sensitivityY = 1.0f;
 	public MyButton buttonA = new MyButton(); 
-	//public MyButton buttonB = new MyButton(); 
+	public MyButton buttonAction = new MyButton(); 
 	public MyButton buttonRB = new MyButton(); 
 	public MyButton buttonLB = new MyButton(); 
 	public MyButton buttonRT = new MyButton(); 
@@ -60,6 +61,7 @@ public class KeyBoardInput : IUserInput {
 		buttonRT.Tick(Input.GetKey(KeyRT));
 		buttonLT.Tick(Input.GetKey(KeyLT));
 		buttonJstick.Tick(Input.GetKey(KeyJstick));
+		buttonAction.Tick(Input.GetKey(KeyAction));
 		run = (buttonA.IsPressing&&!buttonA.IsDelaying)||buttonA.IsExtending;//点击后，延迟开始和结束
 		jump = buttonA.OnPressed && buttonA.IsExtending; //双击
 		roll = (buttonA.IsDelaying && buttonA.OnReleased); //快速点击
@@ -69,6 +71,7 @@ public class KeyBoardInput : IUserInput {
 		lt = buttonLT.OnPressed;
 		defense = buttonLB.IsPressing;
 		lockon = buttonJstick.OnPressed;
+		action = buttonAction.OnPressed;
 	}
 }
         
